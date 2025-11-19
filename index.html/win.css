@@ -1,0 +1,205 @@
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg,);
+            min-height: 100vh;
+            padding: 20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width:100%;
+            padding: 40px 30px;
+        }
+        .header { text-align:center; margin-bottom:30px; }
+        .header h1 { color:#333; font-size:28px; margin-bottom:10px; }
+        .header p { color:#666; font-size:16px; }
+        .form-group { margin-bottom:20px; }
+        label { display:block; margin-bottom:8px; color:#333; font-weight:500; font-size:14px; }
+        .required { color:#e74c3c; }
+        input[type="text"], input[type="email"], input[type="tel"], select {
+            width:100%; padding:12px 15px; border:2px solid #e0e0e0; border-radius:8px; font-size:16px; transition:border-color .3s;
+        }
+        input:focus, select:focus { outline:none; border-color:#667eea; }
+        .phone-group { display:flex; gap:10px; }
+        .country-code { flex:0 0 140px; }
+        .phone-number { flex:1; }
+        .address-group { display:grid; gap:15px; }
+        .address-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .iphone-specs { display:grid; gap:15px; margin-top:10px; }
+        .spec-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .image-upload { border:2px dashed #e0e0e0; border-radius:8px; padding:20px; text-align:center; cursor:pointer; transition:all .3s; }
+        .image-upload:hover { border-color:#667eea; background:#f8f9ff; }
+        .image-upload input[type="file"] { display:none; }
+        .image-preview { display:grid; grid-template-columns:repeat(auto-fill, minmax(100px,1fr)); gap:10px; margin-top:15px; }
+        .preview-item { position:relative; width:100%; padding-top:100%; border-radius:8px; overflow:hidden; }
+        .preview-item img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; }
+        .remove-image {
+            position:absolute; top:5px; right:5px; background: rgba(231,76,60,0.9); color:white; border:none; border-radius:50%;
+            width:24px; height:24px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; z-index:10;
+        }
+        .checkbox-group { margin:25px 0; }
+        .checkbox-item { display:flex; align-items:flex-start; margin-bottom:15px; }
+        .checkbox-item input[type="checkbox"] { margin-right:10px; margin-top:2px; width:18px; height:18px; cursor:pointer; }
+        .checkbox-item label { margin:0; font-weight:normal; cursor:pointer; flex:1; }
+        .checkbox-item a { color:#667eea; text-decoration:none; }
+        .checkbox-item a:hover { text-decoration:underline; }
+        .recaptcha-container { display:flex; justify-content:center; margin:25px 0; }
+        .submit-btn {
+            width:100%; padding:15px; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; border:none; border-radius:8px;
+            font-size:18px; font-weight:600; cursor:pointer; transition: transform .2s, box-shadow .2s;
+        }
+        .submit-btn:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(102,126,234,0.3); }
+        .submit-btn:active { transform:translateY(0); }
+        .submit-btn:disabled { background:#ccc; cursor:not-allowed; transform:none; }
+        .error { color:#e74c3c; font-size:13px; margin-top:5px; display:none; }
+        .success-message { display:none; text-align:center; padding:40px 20px; }
+        .success-message.show { display:block; }
+        .success-icon { font-size:60px; color:#27ae60; margin-bottom:20px; }
+        .success-message h2 { color:#333; margin-bottom:10px; }
+        .success-message p { color:#666; line-height:1.6; }
+        .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); animation:fadeIn .3s; }
+        .modal.show { display:flex; align-items:center; justify-content:center; }
+        .modal-content { background:white; padding:30px; border-radius:16px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation:slideUp .3s; }
+        .modal-header { margin-bottom:20px; }
+        .modal-header h2 { color:#333; font-size:24px; margin-bottom:10px; }
+        .modal-body { color:#666; line-height:1.8; margin-bottom:20px; }
+        .modal-body h3 { color:#333; margin-top:15px; margin-bottom:10px; font-size:18px; }
+        .modal-body ul { margin-left:20px; margin-bottom:10px; }
+        .modal-footer { display:flex; gap:10px; }
+        .modal-btn { flex:1; padding:12px; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; transition:all .3s; }
+        .modal-btn-primary { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; }
+        .modal-btn-secondary { background:#f0f0f0; color:#333; }
+        .modal-btn:hover { transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes slideUp { from { transform:translateY(50px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+        @media (max-width:600px) {
+            .container { padding:30px 20px; }
+            .header h1 { font-size:24px; }
+            .address-row, .spec-row { grid-template-columns:1fr; }
+            .phone-group { flex-direction:column; }
+            .country-code { flex:1; }
+            .modal-content { padding:20px; }
+            .modal-footer { flex-direction:column; }
+        }
+
+        .note-popup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* dim background */
+}
+
+.note-content {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 14px;
+    max-width: 320px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.4;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+footer {
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+
+/* Make all dropdowns slim like iOS/Android */
+select {
+    padding: 10px;
+    font-size: 14px;
+    background: #f7f7f7;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23999" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548L10 12.032l4.484-4.484.707.707L10 13.446 4.809 8.255z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+}
+
+/* Make country code dropdown small */
+.country-code select {
+    width: 120px !important;
+}
+
+/* Make all drop-downs fit container */
+.form-group select,
+.iphone-specs select,
+.address-group select {
+    width: 100% !important;
+    max-width: 100%;
+}
+
+
+.footer .instagram a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer .instagram a:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+
+/* celebration emoji in popup */
+.celebrate {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 1.25em;            /* adjust size */
+  transform-origin: 50% 50%;
+  will-change: transform;
+  /* default not animating until JS triggers .animate */
+}
+
+/* shake keyframes — small, friendly shake */
+@keyframes celebrate-shake {
+  0%   { transform: rotate(0deg) translateY(0); }
+  10%  { transform: rotate(-12deg) translateY(-2px); }
+  30%  { transform: rotate(12deg) translateY(0); }
+  50%  { transform: rotate(-8deg) translateY(-1px); }
+  70%  { transform: rotate(8deg) translateY(0); }
+  90%  { transform: rotate(-4deg) translateY(-0.5px); }
+  100% { transform: rotate(0deg) translateY(0); }
+}
+
+/* apply animation when .animate is present */
+.celebrate.animate {
+  animation: celebrate-shake 0.85s ease-in-out 1;
+}
