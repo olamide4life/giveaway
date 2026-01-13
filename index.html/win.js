@@ -1,316 +1,391 @@
-// =========================
-// FULL win.js (fixed social username + image preview init timing)
-// =========================
+"use strict";
 
-document.addEventListener('DOMContentLoaded', () => {
+// ===== LOCAL STORAGE =====
+let allOrders = JSON.parse(localStorage.getItem('allOrders')) || {};
 
-  // =========================
-  // ELEMENT SELECTORS
-  // =========================
-  const form = document.getElementById('giveawayForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const successMessage = document.getElementById('successMessage');
+// ===== MENU DATA =====
+const menuData = {
+    boba: {
+        name: "BOBA",
+        items: [
+            {id: 'boba1', name: "Classic Boba", description: "Vanilla, Strawberry, Taro, Nutella, Lotus biscoff, Caramel, Oreos cookies chocolate", image: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=400&h=300&fit=crop", sizes: {large: 8000, medium: 7200}},
+        ]
+    },
+    matcha: {
+        name: "MATCHA",
+        items: [
+            {id: 'matcha1', name: "Classic Matcha", description: "Iced matcha latte, Strawberry matcha, Caramel matcha, Taro Matcha, Latte", image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400&h=300&fit=crop", sizes: {large: 7000, medium: 6500}},
+        ]
+    },
+    smoothies: {
+        name: "SMOOTHIES",
+        items: [
+            {id: 'smooth1', name: "Berry Energy Smoothie", description: "Mixed Strawberry With Blueberry And Banana", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 6000},
+            {id: 'smooth2', name: "Green Detox Smoothie", description: "Mixed Spinach, Apple With Pineapple And Yoghurt", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3800},
+            {id: 'smooth3', name: "Date Banana Smoothie", description: "", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3500},
+            {id: 'smooth4', name: "Berry Blast Smoothie", description: "Mixed Banana, Oats, Yogurt With Milk And honey", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3800},
+            {id: 'smooth5', name: "Berry Blast Smoothie", description: "Mixed Pineapple With Banana And Milk", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3500},
+        ]
+    },
+    yoghurtparfait: {
+        name: "YOGHURT PARFAIT",
+        items: [
+            {id: 'yoghurt parfait1', name: "450ML", description: "", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 6000},
+            {id: 'yoghurt parfait2', name: "500ML", description: "", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3800},
+            {id: 'yoghurt parfait3', name: "550ML", description: "", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3500},
+            {id: 'yoghurt parfait4', name: "1 Liter Bowl", description: "", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=300&fit=crop", price: 3800},
+        ]
+    } 
+};
 
-  const imageInput = document.getElementById('imageInput');
-  const imagePreview = document.getElementById('imagePreview');
-  const imageUploadArea = document.getElementById('imageUploadArea');
+let cart = [];
 
-  const termsModal = document.getElementById('termsModal');
-  const termsLink = document.getElementById('termsLink');
-  const closeModal = document.getElementById('closeModal');
-  const agreeTerms = document.getElementById('agreeTerms');
-  const termsCheckbox = document.getElementById('terms');
+// ===== MENU =====
+function showMenu() {
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('menu').classList.add('active');
+    document.getElementById('lookupSection').style.display = 'block';
+    renderMenu();
+}
 
-  // popup note elements (exist in your HTML)
-  const notePopup = document.getElementById('notePopup');
-  const closeNote = document.getElementById('closeNote');
-
-  // social elements (match your HTML names)
-  const socialPlatform = document.getElementById('socialPlatform');
-  const socialUsername = document.getElementById('socialUsername');
-  const socialUsernameSection = document.getElementById('socialUsernameSection');
-
-  // =========================
-  // CLOUDINARY CONFIG
-  // =========================
-  const CLOUD_NAME = "dlvmuzhu0";
-  const UPLOAD_PRESET = "giveaway";
-
-  let selectedImages = [];
-  let uploadedImageURLs = [];
-
-  // =========================
-  // ERROR HANDLER
-  // =========================
-  function showError(id, show = true, text = null) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.display = show ? "block" : "none";
-      if (text) el.textContent = text;
-  }
-
-  // =========================
-  // IMAGE SELECT + PREVIEW
-  // =========================
-  // attach click to fake upload area
-  if (imageUploadArea && imageInput) {
-    imageUploadArea.addEventListener("click", () => imageInput.click());
-  }
-
-  if (imageInput) {
-    imageInput.addEventListener("change", e => {
-        const files = Array.from(e.target.files || []);
-
-        if (selectedImages.length + files.length > 3) {
-            showError("imageError", true, "Maximum 3 images allowed");
-            return;
-        }
-
-        showError("imageError", false);
-
-        files.forEach(file => {
-            if (file.type && file.type.startsWith("image/")) {
-                const reader = new FileReader();
-                reader.onload = ev => {
-                    selectedImages.push({ file, dataUrl: ev.target.result });
-                    renderPreviews();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // reset so same file can be reselected if removed
-        imageInput.value = "";
+function renderMenu() {
+    const container = document.getElementById('menuCategories');
+    container.innerHTML = '';
+    Object.keys(menuData).forEach(categoryKey => {
+        const category = menuData[categoryKey];
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'menu-category';
+        categoryDiv.innerHTML = `
+            <div class="category-header" onclick="toggleCategory('${categoryKey}')">
+                <span class="category-title">${category.name}</span>
+                <span class="category-icon">▼</span>
+            </div>
+            <div class="category-items" id="${categoryKey}-items">
+                ${category.items.map(item => renderMenuItem(item)).join('')}
+            </div>
+        `;
+        container.appendChild(categoryDiv);
     });
-  }
+}
 
-  function renderPreviews() {
-      if (!imagePreview) return;
-      imagePreview.innerHTML = "";
-
-      selectedImages.forEach((img, index) => {
-          const div = document.createElement("div");
-          div.classList.add("preview-item");
-
-          div.innerHTML = `
-              <img src="${img.dataUrl}" alt="preview ${index+1}">
-              <button type="button" class="remove-image" data-index="${index}">×</button>
-          `;
-
-          imagePreview.appendChild(div);
-      });
-
-      // attach remove handlers
-      document.querySelectorAll(".remove-image").forEach(btn => {
-          btn.addEventListener("click", e => {
-              const i = parseInt(e.currentTarget.getAttribute("data-index"), 10);
-              if (!isNaN(i)) {
-                  selectedImages.splice(i, 1);
-                  renderPreviews();
-              }
-          });
-      });
-  }
-
-  // =========================
-  // TERMS MODAL
-  // =========================
-  if (termsLink) {
-    termsLink.addEventListener("click", e => {
-        e.preventDefault();
-        if (termsModal) termsModal.classList.add("show");
-    });
-  }
-
-  if (closeModal) {
-    closeModal.addEventListener("click", () => {
-        if (termsModal) termsModal.classList.remove("show");
-    });
-  }
-
-  if (agreeTerms) {
-    agreeTerms.addEventListener("click", () => {
-        if (termsCheckbox) termsCheckbox.checked = true;
-        if (termsModal) termsModal.classList.remove("show");
-        showError("termsError", false);
-    });
-  }
-
-  if (termsModal) {
-    termsModal.addEventListener("click", e => {
-        if (e.target === termsModal) termsModal.classList.remove("show");
-    });
-  }
-
-  // =========================
-  // POPUP NOTE (X close + outside click)
-  // =========================
-  if (closeNote && notePopup) {
-    closeNote.addEventListener("click", () => {
-      notePopup.style.display = "none";
-    });
-
-    notePopup.addEventListener("click", (e) => {
-      if (e.target === notePopup) notePopup.style.display = "none";
-    });
-  }
-
-  // optional: show popup initially if present
-  if (notePopup) notePopup.style.display = 'flex';
-
-  // =========================
-  // SOCIAL USERNAME SHOW/HIDE (FIX)
-  // =========================
-  // Start hidden
-  if (socialUsernameSection) socialUsernameSection.style.display = 'none';
-
-  if (socialPlatform) {
-    socialPlatform.addEventListener('change', () => {
-      const val = (socialPlatform.value || "").trim();
-      if (val !== "") {
-        if (socialUsernameSection) socialUsernameSection.style.display = 'block';
-        if (socialUsername) socialUsername.focus();
-      } else {
-        if (socialUsernameSection) socialUsernameSection.style.display = 'none';
-        if (socialUsername) socialUsername.value = '';
-      }
-    });
-  }
-
-  // =========================
-  // FORM VALIDATION
-  // =========================
-  function validateForm() {
-      let valid = true;
-
-      const fullName = document.getElementById("fullName").value.trim();
-      if (fullName.length < 2) { showError("nameError"); valid = false; } else showError("nameError", false);
-
-      const email = document.getElementById("email").value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          showError("emailError"); valid = false;
-      } else showError("emailError", false);
-
-      const phone = document.getElementById("phoneNumber").value.trim();
-      if (phone.replace(/\D/g, "").length < 7) {
-          showError("phoneError", true, "Enter valid phone number");
-          valid = false;
-      } else showError("phoneError", false);
-
-      // social platform + username checks
-      const platformVal = (socialPlatform && socialPlatform.value) ? socialPlatform.value.trim() : "";
-      const usernameVal = (socialUsername && socialUsername.value) ? socialUsername.value.trim() : "";
-
-      if (!platformVal) {
-          showError("socialPlatformError", true, "Select a platform");
-          valid = false;
-      } else {
-          showError("socialPlatformError", false);
-      }
-
-      if (!usernameVal) {
-          showError("socialUsernameError", true, "Enter your username");
-          valid = false;
-      } else {
-          showError("socialUsernameError", false);
-      }
-
-      if (!termsCheckbox || !termsCheckbox.checked) {
-          showError("termsError", true, "You must accept the terms");
-          valid = false;
-      } else showError("termsError", false);
-
-      return valid;
-  }
-
-  // =========================
-  // CLOUDINARY UPLOAD
-  // =========================
-  async function uploadImageToCloudinary(file) {
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", UPLOAD_PRESET);
-
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, {
-          method: "POST",
-          body: data
-      });
-
-      if (!res.ok) throw new Error("Cloudinary upload failed");
-
-      const json = await res.json();
-      return json.secure_url;
-  }
-
-  // =========================
-  // SUBMIT FORM
-  // =========================
-  if (form) {
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        if (!validateForm()) return;
-
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Submitting...";
-        }
-
-        uploadedImageURLs = [];
-
-        try {
-            for (const img of selectedImages) {
-                const url = await uploadImageToCloudinary(img.file);
-                uploadedImageURLs.push(url);
-            }
-
-            const data = new FormData(form);
-
-            // append image urls
-            uploadedImageURLs.forEach((url, i) => data.append(`image${i+1}_url`, url));
-
-            const response = await fetch("https://formspree.io/f/xpwjppkr", {
-                method: "POST",
-                body: data,
-                headers: { "Accept": "application/json" }
-            });
-
-            if (!response.ok) throw new Error("Failed to submit form");
-
-            form.style.display = "none";
-            if (successMessage) successMessage.classList.add("show");
-
-        } catch (err) {
-            alert(err.message || "Error submitting the form");
-        } finally {
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.textContent = "Enter Giveaway";
-            }
-        }
-    });
-  }
-
-  // =========================
-  // small celebrate shake (if you have .celebrate in popup)
-  // =========================
-  const celebrate = document.querySelector('.note-content .celebrate');
-  if (celebrate) {
-    function triggerShake() {
-      celebrate.classList.remove('animate');
-      void celebrate.offsetWidth;
-      celebrate.classList.add('animate');
-      setTimeout(() => celebrate.classList.remove('animate'), 1000);
+function renderMenuItem(item) {
+    if (item.sizes) {
+        return `
+            <div class="menu-item">
+                <div class="item-content">
+                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">${item.name}</h3>
+                        <p class="item-description">${item.description}</p>
+                        <div class="size-options">
+                            <div class="size-option" onclick="addToCart('${item.id}','${item.name}',${item.sizes.medium},'Medium','${item.image}')">
+                                <span class="size-label">Medium</span>
+                                <span class="size-price">₦${item.sizes.medium.toLocaleString()}</span>
+                            </div>
+                            <div class="size-option" onclick="addToCart('${item.id}','${item.name}',${item.sizes.large},'Large','${item.image}')">
+                                <span class="size-label">Large</span>
+                                <span class="size-price">₦${item.sizes.large.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="menu-item">
+                <div class="item-content">
+                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">${item.name}</h3>
+                        <p class="item-description">${item.description}</p>
+                        <div class="single-price-item">
+                            <span class="item-price">₦${item.price.toLocaleString()}</span>
+                            <button class="add-btn" onclick="addToCart('${item.id}','${item.name}',${item.price},null,'${item.image}')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
     }
-    triggerShake();
-    const shakeInterval = setInterval(() => {
-      if (!notePopup || notePopup.style.display === 'none') return;
-      triggerShake();
-    }, 5000);
-    // clear when popup closed
-    if (closeNote) closeNote.addEventListener('click', () => clearInterval(shakeInterval));
-    if (notePopup) notePopup.addEventListener('click', (e) => { if (e.target === notePopup) clearInterval(shakeInterval); });
-    setTimeout(() => { if (notePopup) notePopup.style.display = 'none'; clearInterval(shakeInterval); }, 50000);
-  }
+}
 
-}); // end DOMContentLoaded
+function toggleCategory(categoryKey) {
+    const items = document.getElementById(categoryKey + '-items');
+    items.classList.toggle('active');
+    items.previousElementSibling.classList.toggle('active');
+}
+
+// ===== CART =====
+function addToCart(id, name, price, size, image) {
+    const itemName = size ? `${name} (${size})` : name;
+    const existingIndex = cart.findIndex(i => i.name === itemName);
+    if (existingIndex !== -1) {
+        cart[existingIndex].qty += 1;
+    } else {
+        cart.push({ id, name: itemName, price, image, qty: 1 });
+    }
+    updateCart();
+}
+
+// ===== CART QUANTITY & REMOVE =====
+function changeQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+    }
+    updateCart();
+    if (document.getElementById('eatHereForm').classList.contains('active')) renderOrderSummary('eatHereSummary');
+    if (document.getElementById('deliveryForm').classList.contains('active')) renderOrderSummary('deliverySummary');
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCart();
+    if (cart.length === 0) goBackToMenu();
+    if (document.getElementById('eatHereForm').classList.contains('active')) renderOrderSummary('eatHereSummary');
+    if (document.getElementById('deliveryForm').classList.contains('active')) renderOrderSummary('deliverySummary');
+}
+
+function goBackToMenu() {
+    document.getElementById('orderType').classList.remove('active');
+    document.getElementById('eatHereForm').classList.remove('active');
+    document.getElementById('deliveryForm').classList.remove('active');
+    document.getElementById('menu').classList.add('active');
+}
+
+// ===== RENDER ORDER SUMMARY =====
+function renderOrderSummary(elementId) {
+    const container = document.getElementById(elementId);
+    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+    container.innerHTML = `
+        <h3 class="summary-title">Order Summary</h3>
+        ${cart.map((item, index) => `
+            <div class="summary-item">
+                <div class="summary-item-info">
+                    <img src="${item.image}" alt="${item.name}" class="summary-item-img">
+                    <span>${item.name}</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="changeQty(${index}, -1)">−</button>
+                    <strong>${item.qty}</strong>
+                    <button onclick="changeQty(${index}, 1)">+</button>
+                    <button onclick="removeItem(${index})">❌</button>
+                </div>
+                <span>₦${(item.price * item.qty).toLocaleString()}</span>
+            </div>
+        `).join('')}
+        <div class="summary-total">
+            <span>Total</span>
+            <span>₦${total.toLocaleString()}</span>
+        </div>
+       <button type="button" class="back-btn" onclick="goBackToMenu()">← Back</button>
+
+
+    `;
+}
+
+// ===== UPDATE CART DISPLAY =====
+function updateCart() {
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+    document.getElementById('cartCount').textContent = count;
+    document.getElementById('cartTotal').textContent = total.toLocaleString();
+    document.getElementById('cartSummary').style.display = count > 0 ? 'block' : 'none';
+}
+
+// ===== ORDER TYPE =====
+function proceedToOrderType() {
+    if (cart.length === 0) return;
+    document.getElementById('menu').classList.remove('active');
+    document.getElementById('orderType').classList.add('active');
+}
+
+function selectOrderType(type) {
+    document.getElementById('orderType').classList.remove('active');
+    if (type === 'eathere') {
+        document.getElementById('eatHereForm').classList.add('active');
+        renderOrderSummary('eatHereSummary');
+    } else {
+        document.getElementById('deliveryForm').classList.add('active');
+        renderOrderSummary('deliverySummary');
+    }
+}
+
+// ===== SUBMIT ORDER =====
+function submitOrder(event, type) {
+    event.preventDefault();
+
+    // 🚫 STOP if cart is empty
+    if (!cart || cart.length === 0) {
+        alert("Your cart is empty. Please add items before placing an order.");
+        return;
+    }
+
+    const customer = type === 'eathere'
+        ? { 
+            name: document.getElementById('nameEatHere').value, 
+            phone: document.getElementById('phoneEatHere').value, 
+            table: document.getElementById('tableNumber').value 
+        }
+        : { 
+            name: document.getElementById('nameDelivery').value, 
+            phone: document.getElementById('phoneDelivery').value, 
+            address: document.getElementById('address').value, 
+            city: document.getElementById('city').value, 
+            notes: document.getElementById('notes') ? document.getElementById('notes').value : 'None' 
+        };
+
+    if (!customer.name || !customer.phone || (type === 'eathere' && !customer.table) || (type === 'delivery' && (!customer.address || !customer.city))) {
+        alert("Please fill all required fields!");
+        return;
+    }
+
+    const orderId = 'YN' + Date.now().toString().slice(-6);
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+    const now = new Date();
+    const orderData = {
+        orderId,
+        type,
+        customer,
+        items: cart,
+        total,
+        createdAt: now.getTime(),
+        createdAtText: now.toLocaleString('en-NG', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        })
+    };
+
+    allOrders[orderId] = orderData;
+    localStorage.setItem('allOrders', JSON.stringify(allOrders));
+
+    document.getElementById('eatHereForm').classList.remove('active');
+    document.getElementById('deliveryForm').classList.remove('active');
+    document.getElementById('confirmation').classList.add('active');
+    document.getElementById('confirmOrderId').textContent = orderId;
+
+    if (document.getElementById('confirmOrderDate')) {
+        document.getElementById('confirmOrderDate').textContent = `Date & Time: ${orderData.createdAtText}`;
+    }
+
+    renderOrderSummary('confirmSummary');
+
+    const orderListText = cart
+        .map(i => `• ${i.name} - ₦${i.price.toLocaleString()} x${i.qty}`)
+        .join('\n');
+
+    const myWhatsAppNumber = "2349162809649";
+    let message = `
+Hello Yogurt & Nut,
+
+Order ID: ${orderId}
+Date & Time: ${orderData.createdAtText}
+Order Type: ${type === 'eathere' ? 'Eat Here' : 'Delivery'}
+
+Customer:
+${type === 'eathere'
+    ? `Name: ${customer.name}\nPhone: ${customer.phone}\nTable: ${customer.table}`
+    : `Name: ${customer.name}\nPhone: ${customer.phone}\nAddress: ${customer.address}\nCity: ${customer.city}\nNotes: ${customer.notes}`}
+
+Order Details:
+${orderListText}
+
+Total: ₦${total.toLocaleString()}
+    `;
+
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    whatsappBtn.href = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message.trim())}`;
+    whatsappBtn.target = "_blank";
+
+    cart = [];
+    updateCart();
+}
+
+
+// ===== LOOKUP =====
+let lookupRunning = false;
+function lookupOrder() {
+    if (lookupRunning) return;
+    lookupRunning = true;
+
+    const id = document.getElementById("lookupId").value.trim();
+    const pin = document.getElementById("adminPin").value.trim();
+    const output = document.getElementById("lookupResults");
+
+    if (!id || !pin) {
+        output.innerHTML = "<p>Please enter Order ID and Admin PIN.</p>";
+        lookupRunning = false;
+        return;
+    }
+
+    if (pin !== "7247") {
+        output.innerHTML = "<p>❌ Invalid Admin PIN.</p>";
+        lookupRunning = false;
+        return;
+    }
+
+    requestAnimationFrame(() => {
+        const order = allOrders[id];
+        if (!order) {
+            output.innerHTML = "<p>❌ Order not found.</p>";
+        } else {
+            output.innerHTML = `
+                <h3>Order ID: ${order.orderId}</h3>
+                <p><strong>Date & Time:</strong> ${order.createdAtText}</p>
+                <p><strong>Type:</strong> ${order.type === "eathere" ? "Eat Here" : "Delivery"}</p>
+                <p><strong>Name:</strong> ${order.customer.name}</p>
+                <p><strong>Phone:</strong> ${order.customer.phone}</p>
+                ${order.type === "delivery" ? `
+                    <p><strong>Address:</strong> ${order.customer.address}</p>
+                    <p><strong>City:</strong> ${order.customer.city}</p>
+                ` : `
+                    <p><strong>Table:</strong> ${order.customer.table}</p>
+                `}
+                <hr>
+                <ul>
+                    ${order.items.map(i => `<li>${i.name} — ₦${i.price.toLocaleString()} x${i.qty}</li>`).join("")}
+                </ul>
+                <p><strong>Total:</strong> ₦${order.total.toLocaleString()}</p>
+            `;
+        }
+        lookupRunning = false;
+    });
+}
+
+// ===== COPY ACCOUNT =====
+// ===== COPY ACCOUNT =====
+function copyAccountNumber(accountId) {
+    const acc = document.getElementById(accountId).textContent;
+    navigator.clipboard.writeText(acc).then(() => {
+        alert("Account number copied: " + acc);
+    }).catch(err => {
+        console.error("Failed to copy account number:", err);
+    });
+}
+
+// ===== RESET APP =====
+function resetApp() {
+    cart = [];
+    updateCart();
+    document.getElementById('confirmation').classList.remove('active');
+    document.getElementById('hero').style.display = 'flex';
+    document.getElementById('nameEatHere').value = '';
+    document.getElementById('phoneEatHere').value = '';
+    document.getElementById('tableNumber').value = '';
+    document.getElementById('nameDelivery').value = '';
+    document.getElementById('phoneDelivery').value = '';
+    document.getElementById('address').value = '';
+    document.getElementById('city').value = '';
+    if(document.getElementById('notes')) document.getElementById('notes').value = '';
+}
+
+// ===== THEME =====
+function toggleTheme() { document.body.classList.toggle('light-mode'); }
